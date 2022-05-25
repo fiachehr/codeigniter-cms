@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+<style>
+@font-face {
+  font-family: 'YJ';
+  src: url("../../../../assets/fonts/Yekan.eot");
+  src: url("../../../../assets/fonts/Yekan.eot#iefix") format("embedded-opentype"), url("../../../../assets/fonts/Yekan.woff") format("woff"), url("../../../../assets/fonts/Yekan.ttf") format("truetype"), url("../../../../assets/fonts/Yekan.svg#CartoGothicStdBook") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+ 
+ @font-face {
+  font-family: 'NYJ';
+  src: url("../../../../assets/fonts/YekanNumbers-Regular.eot");
+  src: url("../../../../assets/fonts/YekanNumbers-Regular.eot#iefix") format("embedded-opentype"), url("../../../../assets/fonts/YekanNumbers-Regular.woff") format("woff"), url("../../../../assets/fonts/YekanNumbers-Regular.ttf") format("truetype"), url("../../../../assets/fonts/YekanNumbers-Regular.svg#CartoGothicStdBook") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+ 
+body{
+	direction:rtl;
+	font-family:'NYJ','YJ';
+	font-size:14px;
+}
+th{
+	background-color: #d1cdcf
+	
+}
+.head{
+	height: 50px;
+}
+td{
+	text-align: center;
+	height: 30px;
+}
+.body{
+	width: 50%;
+	margin: 0 auto;
+}
+table{
+	float: right;
+}
+.sign{
+	position: relative;
+	bottom : 30px;
+	left:300px;
+	z-index: 10000;
+}
+
+</style>
+<meta charset="utf-8">
+<title><?php echo $factorItems[0]["factorID"];?></title>
+</head>
+
+<body>
+<div class="body">
+<table width="100%" border="1" cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th class="head" colspan="5">فاکتور فروش</th>							
+		</tr>
+		<tr>
+			<th>شماره فاکتور</th>							
+			<td><?php echo $factorItems[0]["factorID"];?></td>
+			<th>تاریخ فاکتور</th>
+			<td><?php echo substr($factorItems[0]["factorRegDate"],10)." ".greToJal($factorItems[0]["factorRegDate"])?></td>
+			<td rowspan="3"><?php echo "<img src=\"".$qrcode."\"  alt=\"".$factorItems[0]["factorID"]."\"/>"; ?></td>
+		</tr>
+		<tr>
+			<th>نام خریدار</th>							
+			<td>آقای / خانم<?php echo " ".$factorItems[0]["userFName"]." ".$factorItems[0]["userLName"];?></td>
+			<th>شماره تماس</th>
+			<td><?php echo $factorItems[0]["userPhoneNo"];?></td>
+		</tr>
+		<tr>
+			<th>آدرس ایمیل</th>							
+			<td><?php echo $factorItems[0]["userEmail"];?></td>
+			<th>کد پستی</th>
+			<td><?php echo $factorItems[0]["userPostalCode"];?></td>
+		</tr>
+		<tr>
+			<th colspan="1">آدرس</th>							
+			<td colspan="4"><?php echo $factorItems[0]["userAddress"];?></td>
+		</tr>
+		<tr>
+			<th>ردیف</th>							
+			<th>عنوان</th>
+			<th>تعداد</th>
+			<th>قیمت واحد</th>
+			<th>قیمت کل</th>
+		</tr>
+		<?php 
+            $counter = 1;
+          	foreach($factorItems as $itemsRows){ 
+         
+		     	echo  "<tr>
+				      		<td>".$counter."</td>
+				            <td>".$itemsRows['productTitle']."</td>
+				            <td>".$itemsRows['itemQuantity']." ".$itemsRows['productUnit']."</td>
+				            <td>".number_format($itemsRows['itemAmount'])." ریال</td>
+				            <td>".number_format($itemsRows['itemAmount']*$itemsRows['itemQuantity'])." ریال</td>
+				          </tr>";
+				$counter++;          
+          
+          	} 
+         ?>         
+		</thead>
+	</table>
+	<table width="60%" border="1" cellpadding="0" cellspacing="0">
+		<tbody>
+	    <?php 
+			  $extraAmount = 0;
+              if($factorFinancialItems["financial"] != NULL){			 
+              
+	              foreach($factorFinancialItems["financial"] as $financialRows){ 
+		         
+				     	echo  " <tr>
+				                	<th width=\"60%\">".$financialRows['financialTitle']."</th>									
+									<td>".number_format($factorItems[0]['factorAmount']*($financialRows['financialPercent']/100))." ریال</td>
+				            	</tr>";
+				            	
+					  if($financialRows['financialType'] == "+"){
+					  	
+					  	  $extraAmount = $extraAmount + ($factorItems[0]['factorAmount']*($financialRows['financialPercent']/100));
+					  	
+					  }else{
+					  	
+						  $extraAmount = $extraAmount - ($factorItems[0]['factorAmount']*($financialRows['financialPercent']/100));
+		  					  	
+					  }       		         
+		          
+		          }
+		          
+		      }
+	          
+	          if($factorFinancialItems["giftCard"] != NULL){
+			  	
+			  		 echo  " <tr>
+				                <th width=\"60%\">تخفیف کارت هدیه </th>									
+								<td>".number_format($factorFinancialItems["giftCard"][0]['giftCardAmount'])." ریال</td>
+				             </tr>";
+				             
+			  		$extraAmount = $extraAmount - $factorFinancialItems["giftCard"][0]['giftCardAmount'];
+			  }
+	          ?> 
+		</tbody>
+	</table>
+	<table width="40%" border="1" cellpadding="0" cellspacing="0">
+		<tbody>
+			 <tr>
+                <th>هزینه حمل و نقل</th>
+                <td><?php echo number_format($factorItems[0]['factorDeliveryFee'])?> ریال</td>
+              </tr>
+              <tr>
+                <th>اعتبار کاربر</th>
+                <td><?php echo number_format($factorItems[0]['factorUserAccount'])?> ریال</td>
+             </tr>
+		</tbody>
+	</table>
+	<table width="60%" border="1" cellpadding="0" cellspacing="0">
+		<tbody>
+			  <tr>
+                <th width="60%">مبلغ کل کالا :</th>
+                <td><?php echo number_format($factorItems[0]['factorAmount'])?> ریال</td>
+              </tr>
+              <tr>
+                <th width="60%">تخفیفات و مالیاتها :</th>
+                <td><?php echo number_format($extraAmount)?> ریال</td>
+              </tr>
+               <tr>
+                <th width="60%">قابل پرداخت :</th>
+                <td><?php echo number_format($factorItems[0]['factorPayment'])?> ریال</td>
+              </tr>
+		</tbody>
+	</table>
+	<div class="sign">
+					<?php
+                	if($factorItems[0]['factorStatus'] == "1"){
+						echo "<img src=\"".base_url()."assets/images/sign.png\" alt=\"پرداخت شده\">";
+					}
+                	?>
+	</div>
+</div>
+</body>
+</html>

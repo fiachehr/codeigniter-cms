@@ -1,0 +1,4 @@
+[27-May-2019 16:58:49 Asia/Tehran] PHP Parse error:  syntax error, unexpected ';' in /home/bicyar/public_html/application/controllers/News.php on line 328
+[27-May-2019 16:58:52 Asia/Tehran] PHP Parse error:  syntax error, unexpected ';' in /home/bicyar/public_html/application/controllers/News.php on line 328
+[27-May-2019 16:58:53 Asia/Tehran] PHP Parse error:  syntax error, unexpected ';' in /home/bicyar/public_html/application/controllers/News.php on line 328
+[24-Jul-2019 14:37:44 Asia/Tehran] PHP Fatal error:  Call to a member function getTopNews() on null in /home/bicyar/public_html/application/controllers/Agotd.php on line 86

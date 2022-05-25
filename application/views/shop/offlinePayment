@@ -1,0 +1,113 @@
+<?php
+$this->load->helper("pdate");
+$offlinePayment = set_value('');
+$offlineRefID = set_value('');
+$offlineRegDate = set_value('');
+        
+
+
+if($dataRegister == "TRUE"){	
+	
+	echo "<script>alert('اطلاعات پرداخت شما ثبت گردید');</script>";
+	redirect(base_url()."user/login","refresh");
+	
+}elseif($dataRegister == "FALSE" ){
+	
+	$offlinePayment = set_value('offlinePayment',$this->input->post('offlinePayment'));
+	$offlineRefID = set_value('offlineRefID ',$this->input->post('offlineRefID '));
+	$offlineRegDate = set_value('offlineRegDate',$this->input->post('offlineRegDate'));		
+	  			
+}
+?>
+
+<div id="maincontainer">
+  <section id="product">
+    <div class="container">
+     <!--  breadcrumb --> 
+      <ul class="breadcrumb">
+        <li>
+          <a href="#">خانه</a>
+          <span class="divider">/</span>
+        </li>
+        <li class="active">اطلاعات پرداخت</li>
+      </ul>
+      
+      <div class="row">        
+        <!-- Register Account-->
+        <div class="span9">
+          <h1 class="heading1"><span class="subtext">ورود اطلاعات پرداخت</span></h1>
+          <form class="form-horizontal" action="<?php echo base_url();?>shop/offlinePayment/<?php echo $factorItems[0]['factorID'];?>" method="post">
+            <div class="registerbox">
+              <h3 class="heading3">اطلاعات فاکتور</h3>
+              <fieldset>
+                <div class="control-group" >
+                  <label class="control-label" > شماره فاکتور :</label>
+                  <div class="controls">
+                      <?php echo $factorItems[0]['factorID'];?>
+                  </div>
+                </div>
+                <div class="control-group" >
+                  <label class="control-label" > مبلغ فاکتور :</label>
+                  <div class="controls">
+                      <?php echo number_format(round($factorItems[0]['factorPayment']));?> ریال
+                  </div>
+                </div>
+                <div class="control-group" >
+                  <label class="control-label" > تاریخ فاکتور :</label>
+                  <div class="controls">
+                      <?php echo greToJal($factorItems[0]['factorRegDate']);?> 
+                  </div>
+                </div>
+                <div class="control-group" >
+                  <label class="control-label" > شماره حساب بانک ملت :</label>
+                  <div class="controls">
+                      19969037/30 
+                  </div>
+                </div>
+                 <div class="control-group" >
+                  <label class="control-label" > شماره کارت بانک ملت :</label>
+                  <div class="controls">
+                      6104-3379-3358-2122 
+                  </div>
+                </div>
+                 <h3 class="heading3">اطلاعات واریز</h3>
+                <div class="control-group" >
+                  <label class="control-label" ><span class="red">*</span> مبلغ واریزی :</label>
+                  <div class="controls">
+                    <input type="text" name="offlinePayment" value="<?php echo $offlinePayment; ?>"  class="input-xlarge">
+                  </div>
+                  <div class="error-message"><?php echo form_error('offlinePayment') ?></div>      
+                </div>
+                <div class="control-group">
+                  <label class="control-label"><span class="red">*</span>کد رهگیری یا شماره فیش  :</label>
+                  <div class="controls">
+                    <input type="text" name="offlineRefID" value="<?php echo $offlineRefID; ?>"  class="input-xlarge">
+                  </div>
+                  <div class="error-message"><?php echo form_error('offlineRefID') ?></div>
+                </div>
+
+                <div class="control-group">
+                  <label class="control-label"><span class="red">*</span>تاریخ واریز : </label>
+                  <div class="controls">
+                    <input type="text" name="offlineRegDate" id="userBirthday" value="<?php echo $offlineRegDate; ?>" class="input-xlarge">
+                  </div>
+                  <div class="error-message"><?php echo form_error('offlineRegDate') ?></div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label"></label>
+                  <div class="controls">
+					<input type="Submit" name="submit" class="btn btn-orange" value="ثبت پرداخت">                 
+					 </div>
+                </div>
+              </fieldset>
+            </div>
+              </fieldset>
+            </div>
+            </div>
+           
+          </form>
+          <div class="clearfix"></div>
+          <br>
+        </div>        
+
+

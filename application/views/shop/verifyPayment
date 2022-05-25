@@ -1,0 +1,28 @@
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <!-- start productshow -->
+            <div id="productshow">
+                <!-- start header-sub -->
+                <div class="header-sub clearfix">
+                    <div class="col-md-6 col-xs-12">
+                        <h4>نتیجه پرداخت فاکتور شماره <?= $this->session->userdata('PayOrderId'); ?></h4>
+                    </div>
+                    <div class="col-md-5 hidden-xs hidden-sm"></div>
+                </div>
+                <div class="content-sub clearfix">
+                    <div class="col-md-12 product-info">              
+                        <?php echo $result[0]; ?>
+                    </div>
+                </div>
+                <div class="footer-sub clearfix">
+                    <div class="col-md-1 hidden-xs hidden-sm"></div>
+                    <div class="col-md-5 hidden-xs hidden-sm"></div>
+                    <div class="col-md-6 col-xs-12">جهت تهیه منابع مورد نیاز با خطوط66176288 و 66176291 تماس بگیرید .</div>
+                </div>
+                <!-- end footer-sub -->
+            </div>
+            <!-- end productshow -->
+        </div>
+    </div>
+</div>

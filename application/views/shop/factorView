@@ -1,0 +1,128 @@
+
+
+<?php 
+   $this->load->helper("pdate");
+   
+   if($payment != NULL){
+   			
+   	echo "<script>alert('پرداخت شما با موفقیت انجام و از حساب کاربری شما کسر گردید');</script>";
+   			
+   }
+   
+   ?>
+
+<?php 
+      $extraAmount = 0;
+      
+      if($factorFinancialItems["financial"] != NULL){			 
+		foreach($factorFinancialItems["financial"] as $financialRows){ 
+			echo   "<div class=\"row factor-detail-title\">
+						<div class=\"col-md-12 \" id=\"cart-view-total\" ><span>".$financialRows['financialTitle']."</span></div>									
+				    </div>
+					<div class=\"row factor-detail-item\">
+						<div class=\"col-md-12\" id=\"cart-view-total\"><span>".number_format($factorItems[0]['factorAmount']*($financialRows['financialPercent']/100))." ریال</span></div>
+					</div>";
+		
+			if($financialRows['financialType'] == "+"){
+				$extraAmount = $extraAmount + ($factorItems[0]['factorAmount']*($financialRows['financialPercent']/100));
+			}else{
+				$extraAmount = $extraAmount - ($factorItems[0]['factorAmount']*($financialRows['financialPercent']/100));
+			}       		         
+		}				    					
+      }
+      
+     
+      
+      ?>       
+<main>
+   <div class="container">
+      <div class="row mt-3">
+         <!--           books slider section     -->
+         <section class="col-12 short-story-wrapper mb-3">
+            <h4 class="short-story-section-title">
+               <span> نمایش فاکتور <?php echo $factorItems[0]["factorID"];?> </span>
+            </h4>
+            <div class="row factor-inner bg-white">
+               <div class="col-12 text-center px-5">
+                  <div class="row">
+                     <div class="col-md-3"><strong>شماره فاکتور</strong></div><div class="col-md-3"><span><?php echo $factorItems[0]["factorID"];?></span></div>
+                     <div class="col-md-3"><strong>تاریخ فاکتور</strong></div><div class="col-md-3"><span><?php echo substr($factorItems[0]["factorRegDate"],10)." | ".greToJal($factorItems[0]["factorRegDate"])?></span></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-3"><strong> نام خریدار</strong></div><div class="col-md-3"><span>آقای / خانم<?php echo " ".$this->session->userdata("userName");?></span></div>
+                     <div class="col-md-3"><strong>شماره تماس</strong></div><div class="col-md-3"><span><?php echo $this->session->userdata("userPhoneNo");?> </span></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-3"><strong> آدرس ایمیل</strong></div><div class="col-md-3"><span><?php echo $this->session->userdata("userEmail");?></span></div>
+					 <div class="col-md-3"><strong>کد پستی </strong></div><div class="col-md-3"><span></span></div>
+				  </div>
+                  <div class="row">
+                     <div class="col-md-3"><strong> آدرس پستی </strong></div><div class="col-md-9"><span><?php echo $state." - ".$this->session->userdata("userLocationTitle")." - ".$this->session->userdata("userAddress");?></span></div>
+                  </div>
+                  <div class="row"><div class="col-md-1"><strong> ردیف </strong></div>
+                     <div class="col-md-3"><strong>عنوان</strong></div>
+                     <div class="col-md-2"><strong>تعداد</strong></div>
+                     <div class="col-md-3"><strong> قیمت واحد</strong></div>
+                     <div class="col-md-3"><strong>قیمت کل</strong></div>
+				  </div>
+
+				  <?php
+						$counter = 1;
+						
+						foreach ($factorItems as $itemsRows) {
+				
+
+							echo "<div class=\"row\">
+									<div class=\"col-md-1\"><span> " . $counter . " </span></div>
+									<div class=\"col-md-3\"><a href=\"" . base_url() . "product/productShow/" . $itemsRows['itemProductGUID'] . "\">" . $itemsRows['productTitle'] . "</a></div>
+									<div class=\"col-md-2\"><span>" . $itemsRows['itemQuantity'] . " " . $itemsRows['productUnit'] . "</span></div>
+									<div class=\"col-md-3\"><span>" . number_format($itemsRows['itemAmount']) . " ریال</span></div>
+									<div class=\"col-md-3\"><span>" . number_format($itemsRows['itemAmount'] * $itemsRows['itemQuantity']) . " ریال</span></div>
+								</div>";
+						
+							$counter++;
+						}
+					?>
+
+                  <div class="row factor-no-border">
+                     <div class="col-md-3 px-3"><strong class="btn btn-buy btn-block">تخفیف خرید اینترنتی</strong><strong class="btn btn-outline-secondary btn-block"></strong></div>
+                     <div class="col-md-3 px-3"><strong class="btn btn-buy btn-block">هزینه حمل و نقل</strong><strong class="btn btn-outline-secondary btn-block"><?php echo number_format($factorItems[0]['factorDeliveryFee'])?> ریال</strong></div>
+                     <div class="col-md-3 px-3"><strong class="btn btn-buy btn-block">اعتبار کاربر</strong><strong class="btn btn-outline-secondary btn-block"><?php echo number_format($factorItems[0]['factorUserAccount'])?> ریال</strong></div>
+					 <div class="col-md-3 px-3">
+						  <strong class="btn btn-buy btn-block">مبلغ کل کالا</strong>
+						  <strong class="btn btn-outline-secondary btn-block"><?php echo number_format($factorItems[0]['factorAmount'])?> ریال</strong>
+						  <strong class="btn btn-danger btn-block">تخفیفات</strong>
+						  <strong class="btn btn-outline-secondary btn-block"><?php echo number_format($extraAmount)?> ریال</strong>
+                          <strong class="btn btn-success btn-block">قابل پراخت :</strong>
+                          <strong class="btn btn-outline-secondary btn-block"><?php echo number_format($factorItems[0]['factorPayment'])?> ریال</strong>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12">
+                        <p class="text-right text-muted">
+                        <?php echo  $description;?> 
+                        </p>
+                     </div>
+                  </div>
+                  <?php if($factorItems[0]['factorStatus'] == "-1"){?>
+                  <form class="row factor-no-border" method="post" action="<?php echo base_url();?>Shop/factorView/<?php echo $factorItems[0]['factorID'];?>">
+                     <div class="col-md-1 text-right d-flex align-items-center">
+                        نحوه پرداخت
+                     </div>
+                     <div class="col-md-2">
+                        <select name="" id="" class="form-control">
+                           <option value="melat">پرداخت آنلاین</option>
+                           <option value="offline">واریز به حساب</option>
+                        </select>
+                     </div>
+                     <div class="col-md-2 mr-3">
+                        <input type="submit" value="پرداخت" name="submit" class="btn btn-success btn-block">
+                     </div>
+                  </form>
+                  <?php } ?>
+               </div>
+            </div>
+         </section>
+      </div>
+   </div>
+</main>

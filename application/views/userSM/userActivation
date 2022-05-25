@@ -1,0 +1,56 @@
+<div class="login-logout-page center-items">
+
+<div class="login-logout-section">
+
+
+    <div class="login-signup-wrapper">
+        <div class="login-wrapper">
+            <div class="add-3d-form-bg"></div>
+            <form class="form-login" action="">
+                <div class="input-rows">
+                    <div class="input-title">
+                         کد دریافتی
+                    </div>
+                    <div class="input-parent">
+                        <i class="icon-v4-sabtnam-code"></i>
+                        <input type="text" placeholder="تایپ نمایید" id="code">
+                    </div>
+                     <p id="codeError"></p>
+                </div>
+                  <div class="input-rows">
+                    <div class="input-title">
+                        انتخاب رمز عبور 
+                    </div>
+                    <div class="input-parent">
+                        <i class="icon-v4-sabtnam-ramz"></i>
+                        <input type="password" placeholder="تایپ نمایید" id="password">
+                    </div>
+                </div>
+                  <div class="input-rows">
+                    <div class="input-title">
+                        تکرار رمز عبور 
+                    </div>
+                    <div class="input-parent">
+                        <i class="icon-v4-sabtnam-ramz"></i>
+                        <input type="password" placeholder="تایپ نمایید" id="retry">
+                    </div>
+                    <p id="passwordError"> </p>
+                </div>
+                <div class="input-rows">
+                    <div class="input-parent login-btn-parent">
+                        <input type="button" value="ورود" id="signup">
+                    </div>
+                </div>
+            </form>
+
+        
+
+        </div>
+
+      
+    </div>
+
+
+</div>
+
+</div>
